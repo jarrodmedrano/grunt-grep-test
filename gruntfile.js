@@ -1,7 +1,21 @@
+
 module.exports = function(grunt) {
     require('jit-grunt')(grunt);
+    grunt.loadNpmTasks('grunt-grep');
+
 
     grunt.initConfig({
+        grep: {
+            production: {
+                files: {
+                    'tmp/boot.css': ['src/winjs.less'], //dest file with lines matching pattern excluded: src files
+                    'tmp/styles': ['winjs/src/less/**/*.less'] //src could be presented as a wildcard, new files with corresponding names will be created in the dest folder
+                },
+                options: {
+                    pattern: '_win-type-body();' //your pattern that will be excluded from file
+                }
+            }
+        },
         less: {
             development: {
                 options: {
@@ -25,5 +39,5 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', ['less', 'watch']);
+    grunt.registerTask('default', ['grep', 'less', 'watch']);
 };
